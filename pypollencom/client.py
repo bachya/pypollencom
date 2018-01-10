@@ -1,16 +1,15 @@
 """Define an Pollen.com client."""
 
-import pypollencom.api as api
 from pypollencom.allergens import Allergens
 from pypollencom.disease import Disease
 
 
-class Client(api.BaseAPI):
+# pylint: disable=too-few-public-methods
+class Client(object):
     """Define a Pollen.com client."""
 
     def __init__(self, zip_code):
         """Initialize."""
-        super().__init__()
         self.zip_code = zip_code
 
         self.allergens = Allergens(zip_code)

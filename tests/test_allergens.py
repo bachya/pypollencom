@@ -7,8 +7,9 @@ import json
 import pytest
 import requests_mock
 
-import pypollencom
+from pypollencom import Client
 from pypollencom.const import POLLEN_API_BASE_URL
+from pypollencom.exceptions import HTTPError
 from tests.fixtures.general import *  # noqa
 from tests.fixtures.allergens import *  # noqa
 
@@ -38,7 +39,7 @@ def test_allergen_operations(current_get_200, extended_get_200,
                 zip_code),
             text=json.dumps(outlook_get_200))
 
-        client = pypollencom.Client(zip_code)
+        client = Client(zip_code)
         assert client.allergens.current() == current_get_200
         assert client.allergens.extended() == extended_get_200
         assert client.allergens.historic() == historic_get_200
@@ -69,22 +70,22 @@ def test_bad_zip_codes(bad_zip_code, empty_get_200):
                 bad_zip_code),
             status_code=404)
 
-        with pytest.raises(pypollencom.exceptions.BadZipCodeError) as exc:
-            client = pypollencom.Client(bad_zip_code)
+        with pytest.raises(HTTPError) as exc:
+            client = Client(bad_zip_code)
             client.allergens.current()
             assert bad_zip_code in str(exc)
 
-        with pytest.raises(pypollencom.exceptions.BadZipCodeError) as exc:
-            client = pypollencom.Client(bad_zip_code)
+        with pytest.raises(HTTPError) as exc:
+            client = Client(bad_zip_code)
             client.allergens.extended()
             assert bad_zip_code in str(exc)
 
-        with pytest.raises(pypollencom.exceptions.BadZipCodeError) as exc:
-            client = pypollencom.Client(bad_zip_code)
+        with pytest.raises(HTTPError) as exc:
+            client = Client(bad_zip_code)
             client.allergens.historic()
             assert bad_zip_code in str(exc)
 
-        with pytest.raises(pypollencom.exceptions.BadZipCodeError) as exc:
-            client = pypollencom.Client(bad_zip_code)
+        with pytest.raises(HTTPError) as exc:
+            client = Client(bad_zip_code)
             client.allergens.outlook()
             assert bad_zip_code in str(exc)

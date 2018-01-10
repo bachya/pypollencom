@@ -7,8 +7,9 @@ import json
 import pytest
 import requests_mock
 
-import pypollencom
+from pypollencom import Client
 from pypollencom.const import POLLEN_API_BASE_URL
+from pypollencom.exceptions import HTTPError
 from tests.fixtures.general import *  # noqa
 from tests.fixtures.disease import *  # noqa
 
@@ -22,8 +23,8 @@ def test_bad_zip_codes(bad_zip_code, empty_get_200):
                 bad_zip_code),
             text=json.dumps(empty_get_200))
 
-        with pytest.raises(pypollencom.exceptions.BadZipCodeError) as exc:
-            client = pypollencom.Client(bad_zip_code)
+        with pytest.raises(HTTPError) as exc:
+            client = Client(bad_zip_code)
             client.disease.extended()
             assert bad_zip_code in str(exc)
 
@@ -36,5 +37,5 @@ def test_disease_operations(extended_get_200, zip_code):
                                                     zip_code),
             text=json.dumps(extended_get_200))
 
-        client = pypollencom.Client(zip_code)
+        client = Client(zip_code)
         assert client.disease.extended() == extended_get_200
