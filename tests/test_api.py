@@ -18,7 +18,7 @@ def test_api_exception(zip_code):
                 zip_code),
             status_code=404)
 
-        with pytest.raises(pypollencom.exceptions.HTTPError) as exc_info:
+        with pytest.raises(pypollencom.exceptions.HTTPError) as exc:
             client = pypollencom.Client(zip_code)
             client.allergens.current()
-            assert '404' in str(exc_info)
+            assert '404' in str(exc)

@@ -4,6 +4,19 @@ import pytest
 
 
 @pytest.fixture(scope='session')
+def empty_get_200(bad_zip_code):
+    """Define successful empty response."""
+    return {
+        "Type": "cold",
+        "ForecastDate": "2018-01-09T00:00:00-05:00",
+        "Location": {
+            "ZIP": bad_zip_code,
+            "periods": []
+        }
+    }
+
+
+@pytest.fixture(scope='session')
 def extended_get_200():
     """Define successful "extended" response."""
     return {

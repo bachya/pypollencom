@@ -1,6 +1,7 @@
 """Define an object that retrieves allergen data."""
 
 import pypollencom.api as api
+import pypollencom.exceptions as exceptions
 
 
 class Allergens(api.BaseAPI):
@@ -13,16 +14,35 @@ class Allergens(api.BaseAPI):
 
     def current(self):
         """Get current allergen info."""
-        return self._get_data('forecast/current/pollen')
+        data = self._get_data('forecast/current/pollen')
+        if data['Location']['periods']:
+            return data
+        else:
+            raise exceptions.BadZipCodeError(
+                'Bad ZIP Code: {0}'.format(self.zip_code))
 
     def extended(self):
         """Get extended allergen info."""
-        return self._get_data('forecast/extended/pollen')
+        data = self._get_data('forecast/extended/pollen')
+        if data['Location']['periods']:
+            return data
+        else:
+            raise exceptions.BadZipCodeError(
+                'Bad ZIP Code: {0}'.format(self.zip_code))
 
     def historic(self):
         """Get historic allergen info."""
-        return self._get_data('forecast/historic/pollen')
+        data = self._get_data('forecast/historic/pollen')
+        if data['Location']['periods']:
+            return data
+        else:
+            raise exceptions.BadZipCodeError(
+                'Bad ZIP Code: {0}'.format(self.zip_code))
 
     def outlook(self):
         """Get allergen outlook."""
-        return self._get_data('forecast/outlook')
+        try:
+            return self._get_data('forecast/outlook')
+        except exceptions.HTTPError:
+            raise exceptions.BadZipCodeError(
+                'Bad ZIP Code: {0}'.format(self.zip_code))

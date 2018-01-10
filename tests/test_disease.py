@@ -13,13 +13,27 @@ from tests.fixtures.general import *  # noqa
 from tests.fixtures.disease import *  # noqa
 
 
-def test_disease_operations(extended_get_200, zip_code):
+def test_bad_zip_codes(bad_zip_code, empty_get_200):
     """Test all operations associated with the allergens module."""
     with requests_mock.Mocker() as mock:
         mock.get(
             '{0}/forecast/extended/cold/{1}'.format(
                 POLLEN_API_BASE_URL,
-                zip_code),
+                bad_zip_code),
+            text=json.dumps(empty_get_200))
+
+        with pytest.raises(pypollencom.exceptions.BadZipCodeError) as exc:
+            client = pypollencom.Client(bad_zip_code)
+            client.disease.extended()
+            assert bad_zip_code in str(exc)
+
+
+def test_disease_operations(extended_get_200, zip_code):
+    """Test all operations associated with the allergens module."""
+    with requests_mock.Mocker() as mock:
+        mock.get(
+            '{0}/forecast/extended/cold/{1}'.format(POLLEN_API_BASE_URL,
+                                                    zip_code),
             text=json.dumps(extended_get_200))
 
         client = pypollencom.Client(zip_code)

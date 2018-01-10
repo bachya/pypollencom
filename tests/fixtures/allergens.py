@@ -130,19 +130,26 @@ def historic_get_200():
 
 
 @pytest.fixture(scope='session')
-def outlook_get_200():
-    """Define successful "extended" response."""
+def empty_get_200(bad_zip_code):
+    """Define successful empty response."""
     return {
-        "Market":
-        "DENVER, CO",
-        "ZIP":
-        "80238",
-        "TrendID":
-        1,
-        "Trend":
-        "low",
-        "Outlook":
-        "The pollen levels for Tuesday will be increasing.",
-        "Season":
-        "Tree"
+        "Type": "pollen",
+        "ForecastDate": "2018-01-09T00:00:00-05:00",
+        "Location": {
+            "ZIP": bad_zip_code,
+            "periods": []
+        }
+    }
+
+
+@pytest.fixture(scope='session')
+def outlook_get_200():
+    """Define successful "outlook" response."""
+    return {
+        "Market": "DENVER, CO",
+        "ZIP": "80238",
+        "TrendID": 1,
+        "Trend": "low",
+        "Outlook": "The pollen levels for Tuesday will be increasing.",
+        "Season": "Tree"
     }
