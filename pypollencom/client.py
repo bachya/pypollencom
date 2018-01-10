@@ -6,7 +6,7 @@ from pypollencom.disease import Disease
 
 
 class Client(api.BaseAPI):
-    """Define an Pollen.com client."""
+    """Define a Pollen.com client."""
 
     def __init__(self, zip_code):
         """Initialize."""

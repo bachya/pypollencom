@@ -1,11 +1,11 @@
-"""Define an object that retrieves disease data."""
+"""Define an API to get disease information."""
 
 import pypollencom.api as api
 import pypollencom.exceptions as exceptions
 
 
 class Disease(api.BaseAPI):
-    """Define an API to get disease information."""
+    """Define an object that retrieves disease data."""
 
     def __init__(self, zip_code):
         """Initialize."""
@@ -13,7 +13,7 @@ class Disease(api.BaseAPI):
         self.zip_code = zip_code
 
     def extended(self):
-        """Get the usage information for a particular "premise"."""
+        """Get extended allergen info."""
         data = self._get_data('forecast/extended/cold')
         if data['Location']['periods']:
             return data

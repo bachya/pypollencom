@@ -1,11 +1,11 @@
-"""Define an object that retrieves allergen data."""
+"""Define an API to get allergy information."""
 
 import pypollencom.api as api
 import pypollencom.exceptions as exceptions
 
 
 class Allergens(api.BaseAPI):
-    """Define an API to get overview information."""
+    """Define an object that retrieves allergen data."""
 
     def __init__(self, zip_code):
         """Initialize."""

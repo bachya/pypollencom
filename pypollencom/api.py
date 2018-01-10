@@ -1,4 +1,4 @@
-"""Define a base object for interacting with the Xcel Energy® website."""
+"""Define a base object for interacting with the Pollen.com website."""
 
 import requests
 
@@ -22,7 +22,7 @@ class BaseAPI(object):
         method = getattr(requests, method_type)
         resp = method(full_url, **kwargs)
 
-        # I don't think it's good form to make end users of pytile have to
+        # I don't think it's good form to make end users of pypollencom have to
         #  explicitly catch exceptions from a sub-library, so here, I wrap the
         # Requests HTTPError in my own:
         try:
