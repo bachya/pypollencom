@@ -1,5 +1,5 @@
-pypollencom: A Simple Python API for Xcel Energy® Data
-=================================================
+pypollencom: A Simple Python API for Pollen.com
+===============================================
 
 .. image:: https://travis-ci.org/bachya/pypollencom.svg?branch=master
   :target: https://travis-ci.org/bachya/pypollencom
@@ -39,8 +39,8 @@ Usage
 
   import pypollencom
 
-  # Create a client:
-  client = pypollencom.Client()
+  # Create a client based on ZIP code:
+  client = pypollencom.Client(80012)
 
   # Get current allergen information:
   client.allergens.current()
