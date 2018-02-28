@@ -39,9 +39,14 @@ Usage
 
   import pypollencom
 
+  # --- CLIENT CREATION -------------------------------------------------------
   # Create a client based on ZIP code:
   client = pypollencom.Client(80012)
 
+  # ZIP codes starting with 0 need to be provided as strings:
+  client = pypollencom.Client('00544')
+
+  # --- DATA RETRIEVAL --------------------------------------------------------
   # Get current allergen information:
   client.allergens.current()
 
