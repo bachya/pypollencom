@@ -2,7 +2,7 @@
 
 import requests
 
-from pypollencom.const import POLLEN_BASE, POLLEN_API_BASE_URL
+from pypollencom.const import POLLEN_API_BASE_URL, POLLEN_USER_AGENT
 from pypollencom.exceptions import HTTPError
 
 
@@ -16,10 +16,11 @@ class BaseAPI(object):
 
     def request(self, method_type, url, **kwargs):
         """Define a generic request."""
-        kwargs.setdefault('headers', {})['Referer'] = POLLEN_BASE
-
         self.full_url = '{0}/{1}/{2}'.format(POLLEN_API_BASE_URL, url,
                                              self.zip_code)
+
+        kwargs.setdefault('headers', {})['User-Agent'] = POLLEN_USER_AGENT
+        kwargs.setdefault('headers', {})['Referer'] = self.full_url
         method = getattr(requests, method_type)
         resp = method(self.full_url, **kwargs)
 
