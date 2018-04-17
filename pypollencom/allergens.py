@@ -6,10 +6,6 @@ from pypollencom.api import BaseAPI, raise_on_empty_data
 class Allergens(BaseAPI):
     """Define an object that retrieves allergen data."""
 
-    def __init__(self, zip_code):
-        """Initialize."""
-        super().__init__(zip_code)
-
     @raise_on_empty_data
     def current(self):
         """Get current allergen info."""
