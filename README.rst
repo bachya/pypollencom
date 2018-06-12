@@ -25,6 +25,20 @@
 pypollencom is a simple Python library for allergen and disease data from
 `Pollen.com <http://www.pollen.com/>`_.
 
+🌼 PLEASE READ: 1.0.0 and Beyond
+================================
+
+Version 1.0.0 of pypollencom makes several breaking, but necessary changes:
+
+* Moves the underlying library from
+  `Requests <http://docs.python-requests.org/en/master/>`_ to
+  `aiohttp <https://aiohttp.readthedocs.io/en/stable/>`_
+* Changes the entire library to use :code:`asyncio`
+* Makes 3.5 the minimum version of Python required
+
+If you wish to continue using the previous, synchronous version of
+pypollencom, make sure to pin version 1.1.2.
+
 🌼 Installation
 ===============
 
