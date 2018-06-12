@@ -14,9 +14,9 @@ from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
 # Package meta-data.
-NAME = 'regenmaschine'
-DESCRIPTION = 'A simple API for RainMachine sprinkler controllers'
-URL = 'https://github.com/bachya/regenmaschine'
+NAME = 'pypollencom'
+DESCRIPTION = 'A simple API for Pollen.com data'
+URL = 'https://github.com/bachya/pypollencom'
 EMAIL = 'bachya1208@gmail.com'
 AUTHOR = 'Aaron Bach'
 REQUIRES_PYTHON = '>=3.5.0'
