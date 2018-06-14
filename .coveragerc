@@ -1,0 +1,6 @@
+[run]
+source = pypollencom
+
+omit =
+    pypollencom/__version__.py
+

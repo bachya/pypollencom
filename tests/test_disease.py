@@ -1,41 +1,58 @@
-"""Define a set of tests for the usages API."""
-
-# pylint: disable=wildcard-import,redefined-outer-name,unused-wildcard-import
+"""Define tests for the "Supported" object."""
+# pylint: disable=redefined-outer-name,unused-import
 
 import json
 
+import aiohttp
 import pytest
-import requests_mock
 
 from pypollencom import Client
-from pypollencom.const import POLLEN_API_BASE_URL
-from pypollencom.exceptions import HTTPError
-from tests.fixtures.general import *  # noqa
-from tests.fixtures.disease import *  # noqa
+
+from .const import TEST_ZIP
 
 
-def test_bad_zip_codes(bad_zip_code, empty_get_200):
-    """Test all operations associated with the allergens module."""
-    with requests_mock.Mocker() as mock:
-        mock.get(
-            '{0}/forecast/extended/cold/{1}'.format(
-                POLLEN_API_BASE_URL,
-                bad_zip_code),
-            text=json.dumps(empty_get_200))
+@pytest.fixture(scope='module')
+def fixture_extended():
+    """Return a /forecast/extended/cold/<ZIP> response."""
+    return {
+        "Type": "cold",
+        "ForecastDate": "2018-06-12T00:00:00-04:00",
+        "Location": {
+            "ZIP":
+                "80238",
+            "City":
+                "DENVER",
+            "State":
+                "CO",
+            "periods": [{
+                "Period": "2018-06-12T05:13:51.817",
+                "Index": 2.4
+            }, {
+                "Period": "2018-06-13T05:13:51.817",
+                "Index": 2.5
+            }, {
+                "Period": "2018-06-14T05:13:51.817",
+                "Index": 2.5
+            }, {
+                "Period": "2018-06-15T05:13:51.817",
+                "Index": 2.5
+            }],
+            "DisplayLocation":
+                "Denver, CO"
+        }
+    }
 
-        with pytest.raises(HTTPError) as exc:
-            client = Client(bad_zip_code)
-            client.disease.extended()
-            assert bad_zip_code in str(exc)
 
+@pytest.mark.asyncio
+async def test_endpoints(aresponses, event_loop, fixture_extended):
+    """Test all endpoints."""
+    aresponses.add(
+        'www.pollen.com',
+        '/api/forecast/extended/cold/{0}'.format(TEST_ZIP), 'get',
+        aresponses.Response(text=json.dumps(fixture_extended), status=200))
 
-def test_disease_operations(extended_get_200, zip_code):
-    """Test all operations associated with the allergens module."""
-    with requests_mock.Mocker() as mock:
-        mock.get(
-            '{0}/forecast/extended/cold/{1}'.format(POLLEN_API_BASE_URL,
-                                                    zip_code),
-            text=json.dumps(extended_get_200))
+    async with aiohttp.ClientSession(loop=event_loop) as websession:
+        client = Client(TEST_ZIP, websession)
 
-        client = Client(zip_code)
-        assert client.disease.extended() == extended_get_200
+        extended = await client.disease.extended()
+        assert len(extended['Location']['periods']) == 4

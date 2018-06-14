@@ -1,12 +1,13 @@
-"""Define an API to get disease information."""
-
-from pypollencom.api import BaseAPI, raise_on_empty_data
+"""Define an object to work with "Disease" endpoints."""
 
 
-class Disease(BaseAPI):
-    """Define an object that retrieves disease data."""
+class Disease(object):  # pylint: disable=too-few-public-methods
+    """Define the "Disease" object."""
 
-    @raise_on_empty_data
-    def extended(self):
-        """Get extended allergen info."""
-        return self.get('forecast/extended/cold').json()
+    def __init__(self, request):
+        """Initialize."""
+        self._request = request
+
+    async def extended(self):
+        """Get extended disease info."""
+        return await self._request('get', 'forecast/extended/cold')

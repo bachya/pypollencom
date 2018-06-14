@@ -1,26 +1,25 @@
-"""Define an API to get allergy information."""
-
-from pypollencom.api import BaseAPI, raise_on_empty_data
+"""Define an object to work with "Allergens" endpoints."""
 
 
-class Allergens(BaseAPI):
-    """Define an object that retrieves allergen data."""
+class Allergens(object):
+    """Define the "Allergens" object."""
 
-    @raise_on_empty_data
-    def current(self):
-        """Get current allergen info."""
-        return self.get('forecast/current/pollen').json()
+    def __init__(self, request):
+        """Initialize."""
+        self._request = request
 
-    @raise_on_empty_data
-    def extended(self):
+    async def current(self):
+        """Get current allergy conditions."""
+        return await self._request('get', 'forecast/current/pollen')
+
+    async def extended(self):
         """Get extended allergen info."""
-        return self.get('forecast/extended/pollen').json()
+        return await self._request('get', 'forecast/extended/pollen')
 
-    @raise_on_empty_data
-    def historic(self):
+    async def historic(self):
         """Get historic allergen info."""
-        return self.get('forecast/historic/pollen').json()
+        return await self._request('get', 'forecast/historic/pollen')
 
-    def outlook(self):
+    async def outlook(self):
         """Get allergen outlook."""
-        return self.get('forecast/outlook').json()
+        return await self._request('get', 'forecast/outlook')

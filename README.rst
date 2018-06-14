@@ -1,5 +1,5 @@
-pypollencom: A Simple Python API for Pollen.com
-===============================================
+🌼 pypollencom: A Simple Python API for Pollen.com
+==================================================
 
 .. image:: https://travis-ci.org/bachya/pypollencom.svg?branch=master
   :target: https://travis-ci.org/bachya/pypollencom
@@ -25,28 +25,71 @@ pypollencom: A Simple Python API for Pollen.com
 pypollencom is a simple Python library for allergen and disease data from
 `Pollen.com <http://www.pollen.com/>`_.
 
-Installation
-============
+🌼 PLEASE READ: 1.0.0 and Beyond
+================================
+
+Version 1.0.0 of pypollencom makes several breaking, but necessary changes:
+
+* Moves the underlying library from
+  `Requests <http://docs.python-requests.org/en/master/>`_ to
+  `aiohttp <https://aiohttp.readthedocs.io/en/stable/>`_
+* Changes the entire library to use :code:`asyncio`
+* Makes 3.5 the minimum version of Python required
+
+If you wish to continue using the previous, synchronous version of
+pypollencom, make sure to pin version 1.1.2.
+
+🌼 Installation
+===============
 
 .. code-block:: bash
 
   $ pip install pypollencom
 
-Usage
-=====
+🌼 Usage
+========
 
 .. code-block:: python
 
   import pypollencom
 
-  # --- CLIENT CREATION -------------------------------------------------------
-  # Create a client based on ZIP code:
+pyairvisual starts within an
+`aiohttp <https://aiohttp.readthedocs.io/en/stable/>`_ :code:`ClientSession`:
+
+.. code-block:: python
+
+  import asyncio
+
+  from aiohttp import ClientSession
+
+  from pyairvisual import Client
+
+
+  async def main() -> None:
+      """Create the aiohttp session and run the example."""
+      async with ClientSession() as websession:
+          await run(websession)
+
+
+  async def run(websession):
+      """Run."""
+      # YOUR CODE HERE
+
+  asyncio.get_event_loop().run_until_complete(main())
+
+Create a client:
+
+.. code-block:: python
+
   client = pypollencom.Client(80012)
 
   # ZIP codes starting with 0 need to be provided as strings:
   client = pypollencom.Client('00544')
 
-  # --- DATA RETRIEVAL --------------------------------------------------------
+Then, get to it!
+
+.. code-block:: python
+
   # Get current allergen information:
   client.allergens.current()
 
@@ -63,8 +106,8 @@ Usage
   client.disease.extended()
 
 
-Contributing
-============
+🌼 Contributing
+===============
 
 #. `Check for open features/bugs <https://github.com/bachya/pypollencom/issues>`_
    or `initiate a discussion on one <https://github.com/bachya/pypollencom/issues/new>`_.
