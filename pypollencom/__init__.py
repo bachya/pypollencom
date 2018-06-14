@@ -1,2 +1,2 @@
-"""Define module-level imports."""
+"""Define public imports."""
 from .client import Client  # noqa
