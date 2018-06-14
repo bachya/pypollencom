@@ -7,8 +7,9 @@ import aiohttp
 import pytest
 
 from pypollencom import Client
+from pypollencom.errors import InvalidZipError
 
-from .const import TEST_ZIP
+from .const import TEST_BAD_ZIP, TEST_ZIP
 
 
 @pytest.fixture(scope='module')
@@ -96,6 +97,19 @@ def fixture_current():
             }],
             "DisplayLocation":
                 "Denver, CO"
+        }
+    }
+
+
+@pytest.fixture(scope='module')
+def fixture_empty_response():
+    """Return a 200 response that has no data."""
+    return {
+        "Type": "pollen",
+        "ForecastDate": "2018-06-14T00:00:00-04:00",
+        "Location": {
+            "ZIP": "a",
+            "periods": []
         }
     }
 
@@ -249,18 +263,12 @@ def fixture_historic():
 def fixture_outlook():
     """Return a /forecast/outlook/<ZIP> response."""
     return {
-        "Market":
-            "DENVER, CO",
-        "ZIP":
-            "80238",
-        "TrendID":
-            4,
-        "Trend":
-            "subsiding",
-        "Outlook":
-            "The amount of pollen in the air for Wednesday...",
-        "Season":
-            "Tree"
+        "Market": "DENVER, CO",
+        "ZIP": "80238",
+        "TrendID": 4,
+        "Trend": "subsiding",
+        "Outlook": "The amount of pollen in the air for Wednesday...",
+        "Season": "Tree"
     }
 
 
@@ -282,8 +290,7 @@ async def test_endpoints(  # pylint: disable=too-many-arguments
         'get',
         aresponses.Response(text=json.dumps(fixture_historic), status=200))
     aresponses.add(
-        'www.pollen.com', '/api/forecast/outlook/{0}'.format(TEST_ZIP),
-        'get',
+        'www.pollen.com', '/api/forecast/outlook/{0}'.format(TEST_ZIP), 'get',
         aresponses.Response(text=json.dumps(fixture_outlook), status=200))
 
     async with aiohttp.ClientSession(loop=event_loop) as websession:
@@ -300,3 +307,26 @@ async def test_endpoints(  # pylint: disable=too-many-arguments
 
         outlook = await client.allergens.outlook()
         assert outlook['Trend'] == 'subsiding'
+
+
+@pytest.mark.asyncio
+async def test_bad_zip(aresponses, event_loop, fixture_empty_response):
+    """Test the cases that would arise from a bad ZIP code."""
+    aresponses.add(
+        'www.pollen.com',
+        '/api/forecast/current/pollen/{0}'.format(TEST_BAD_ZIP), 'get',
+        aresponses.Response(
+            text=json.dumps(fixture_empty_response), status=200))
+    aresponses.add(
+        'www.pollen.com', '/api/forecast/outlook/{0}'.format(TEST_BAD_ZIP),
+        'get', aresponses.Response(text='', status=404))
+
+    with pytest.raises(InvalidZipError):
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            client = Client(TEST_BAD_ZIP, websession)
+            await client.allergens.current()
+
+    with pytest.raises(InvalidZipError):
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            client = Client(TEST_BAD_ZIP, websession)
+            await client.allergens.outlook()
