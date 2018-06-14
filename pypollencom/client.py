@@ -18,7 +18,7 @@ class Client(object):  # pylint: disable=too-few-public-methods
     def __init__(self, zip_code: str, websession: ClientSession) -> None:
         """Initialize."""
         self._websession = websession
-        self._zip_code = zip_code
+        self.zip_code = zip_code
 
         self.allergens = Allergens(self.request)
         self.disease = Disease(self.request)
@@ -32,7 +32,7 @@ class Client(object):  # pylint: disable=too-few-public-methods
             params: dict = None,
             json: dict = None) -> dict:
         """Make a request against AirVisual."""
-        url = '{0}/{1}/{2}'.format(API_URL_SCAFFOLD, endpoint, self._zip_code)
+        url = '{0}/{1}/{2}'.format(API_URL_SCAFFOLD, endpoint, self.zip_code)
 
         if not headers:
             headers = {}
