@@ -4,7 +4,7 @@ import asyncio
 from aiohttp import ClientSession
 
 from pypollencom import Client
-from pypollencom.errors import RequestError
+from pypollencom.errors import PollenComError
 
 
 async def allergens(client: Client) -> None:
@@ -42,14 +42,16 @@ async def run(websession):
     try:
         # Create a client:
         client = Client('80238', websession)
+        print('Client instantiated for ZIP "{0}"'.format(client.zip_code))
 
         # Work with allergen data:
+        print()
         await allergens(client)
 
         # Work with disease data:
         print()
         await disease(client)
-    except RequestError as err:
+    except PollenComError as err:
         print(err)
 
 

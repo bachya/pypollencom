@@ -16,7 +16,7 @@ async def test_create():
     """Test the creation of a client."""
     async with aiohttp.ClientSession() as websession:
         client = Client(TEST_ZIP, websession)
-        assert client._zip_code == TEST_ZIP
+        assert client.zip_code == TEST_ZIP
 
 
 @pytest.mark.asyncio
@@ -25,8 +25,16 @@ async def test_request_error(aresponses, event_loop):
     aresponses.add(
         'www.pollen.com', '/api/bad_endpoint/{0}'.format(TEST_ZIP), 'get',
         aresponses.Response(text='', status=404))
+    aresponses.add(
+        'www.pollen.com', '/api/forecast/outlook/{0}'.format(TEST_ZIP),
+        'get', aresponses.Response(text='', status=500))
 
     with pytest.raises(RequestError):
         async with aiohttp.ClientSession(loop=event_loop) as websession:
             client = Client(TEST_ZIP, websession)
             await client.request('get', 'bad_endpoint')
+
+    with pytest.raises(RequestError):
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            client = Client(TEST_ZIP, websession)
+            await client.allergens.outlook()
