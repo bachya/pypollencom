@@ -81,10 +81,10 @@ Create a client:
 
 .. code-block:: python
 
-  client = pypollencom.Client(80012)
+  client = pypollencom.Client(80012, websession)
 
   # ZIP codes starting with 0 need to be provided as strings:
-  client = pypollencom.Client('00544')
+  client = pypollencom.Client('00544', websession)
 
 Then, get to it!
 
