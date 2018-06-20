@@ -53,7 +53,7 @@ pypollencom, make sure to pin version 1.1.2.
 
   import pypollencom
 
-pyairvisual starts within an
+pypollencom starts within an
 `aiohttp <https://aiohttp.readthedocs.io/en/stable/>`_ :code:`ClientSession`:
 
 .. code-block:: python
@@ -62,7 +62,7 @@ pyairvisual starts within an
 
   from aiohttp import ClientSession
 
-  from pyairvisual import Client
+  from pypollencom import Client
 
 
   async def main() -> None:
