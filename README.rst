@@ -25,7 +25,7 @@
 pypollencom is a simple Python library for allergen and disease data from
 `Pollen.com <http://www.pollen.com/>`_.
 
-🌼 PLEASE READ: 1.0.0 and Beyond
+🌼 PLEASE READ: 2.0.0 and Beyond
 ================================
 
 Version 1.0.0 of pypollencom makes several breaking, but necessary changes:
