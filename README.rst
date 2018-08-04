@@ -91,19 +91,19 @@ Then, get to it!
 .. code-block:: python
 
   # Get current allergen information:
-  client.allergens.current()
+  await client.allergens.current()
 
   # Get more information on the current allergen outlook:
-  client.allergens.outlook()
+  await client.allergens.outlook()
 
   # Get extended forecast allergen information:
-  client.allergens.extended()
+  await client.allergens.extended()
 
   # Get historic allergen information:
-  client.allergens.historic()
+  await client.allergens.historic()
 
   # Get extended forecast cold and flu information:
-  client.disease.extended()
+  await client.disease.extended()
 
 
 🌼 Contributing

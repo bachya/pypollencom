@@ -41,7 +41,7 @@ async def run(websession):
     """Run."""
     try:
         # Create a client:
-        client = Client('80238', websession)
+        client = Client('17015', websession)
         print('Client instantiated for ZIP "{0}"'.format(client.zip_code))
 
         # Work with allergen data:
