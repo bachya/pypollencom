@@ -4,7 +4,7 @@ from typing import Awaitable, Callable
 from .decorators import raise_on_invalid_zip
 
 
-class Disease(object):  # pylint: disable=too-few-public-methods
+class Disease:  # pylint: disable=too-few-public-methods
     """Define the "Disease" object."""
 
     def __init__(self, request: Callable[..., Awaitable[dict]]) -> None:

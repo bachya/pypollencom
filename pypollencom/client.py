@@ -12,7 +12,7 @@ API_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) ' \
     + 'Chrome/65.0.3325.181 Safari/537.36'
 
 
-class Client(object):  # pylint: disable=too-few-public-methods
+class Client:  # pylint: disable=too-few-public-methods
     """Define the client."""
 
     def __init__(self, zip_code: str, websession: ClientSession) -> None:

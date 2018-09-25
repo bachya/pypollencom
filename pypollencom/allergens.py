@@ -5,7 +5,7 @@ from .decorators import raise_on_invalid_zip
 from .errors import InvalidZipError, RequestError
 
 
-class Allergens(object):
+class Allergens:
     """Define the "Allergens" object."""
 
     def __init__(self, request: Callable[..., Awaitable[dict]]) -> None:
