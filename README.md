@@ -8,8 +8,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/71eb642c735e33adcdfc/maintainability)](https://codeclimate.com/github/bachya/pypollencom/maintainability)
 [![Say Thanks](https://img.shields.io/badge/SayThanks-!-1EAEDB.svg)](https://saythanks.io/to/bachya)
 
-`pypollencom` is a simple Python library for allergen and disease data from
-[Pollen.com](http://www.pollen.com/).
+`pypollencom` is a simple Python library for allergen, asthma, and disease data
+from [Pollen.com](http://www.pollen.com/).
 
 # PLEASE READ: Version 2.0.0 and Beyond
 
@@ -81,6 +81,12 @@ async def main() -> None:
 
       # Get historic allergen information:
       await client.allergens.historic()
+
+      # Get extended forecast asthma information:
+      await client.asthma.extended()
+
+      # Get historic asthma information:
+      await client.asthma.historic()
 
       # Get extended forecast cold and flu information:
       await client.disease.extended()
