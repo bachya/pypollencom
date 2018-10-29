@@ -42,6 +42,10 @@ async def run(websession):
         print()
         print('EXTENDED ASTHMA INFO')
         print(await client.asthma.extended())
+
+        print()
+        print('HISTORIC ASTHMA INFO')
+        print(await client.asthma.historic())
     except PollenComError as err:
         print(err)
 
