@@ -82,6 +82,9 @@ async def main() -> None:
       # Get historic allergen information:
       await client.allergens.historic()
 
+      # Get current asthma information:
+      await client.asthma.current()
+
       # Get extended forecast asthma information:
       await client.asthma.extended()
 

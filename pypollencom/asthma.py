@@ -12,6 +12,13 @@ class Asthma:  # pylint: disable=too-few-public-methods
         self._request = request
 
     @raise_on_invalid_zip
+    async def current(self) -> dict:
+        """Get current asthma info."""
+        return await self._request(
+            'get',
+            'https://www.asthmaforecast.com/api/forecast/current/asthma')
+
+    @raise_on_invalid_zip
     async def extended(self) -> dict:
         """Get extended asthma info."""
         return await self._request(
