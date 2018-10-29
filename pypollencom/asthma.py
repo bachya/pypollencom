@@ -1,11 +1,11 @@
-"""Define an object to work with "Disease" endpoints."""
+"""Define an object to work with "Ashtma" endpoints."""
 from typing import Awaitable, Callable
 
 from .decorators import raise_on_invalid_zip
 
 
-class Disease:  # pylint: disable=too-few-public-methods
-    """Define the "Disease" object."""
+class Asthma:  # pylint: disable=too-few-public-methods
+    """Define the "Asthma" object."""
 
     def __init__(self, request: Callable[..., Awaitable[dict]]) -> None:
         """Initialize."""
@@ -13,6 +13,7 @@ class Disease:  # pylint: disable=too-few-public-methods
 
     @raise_on_invalid_zip
     async def extended(self) -> dict:
-        """Get extended disease info."""
+        """Get extended allergen info."""
         return await self._request(
-            'get', 'https://www.pollen.com/api/forecast/extended/cold')
+            'get',
+            'https://www.asthmaforecast.com/api/forecast/extended/asthma')

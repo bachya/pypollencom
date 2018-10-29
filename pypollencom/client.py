@@ -1,12 +1,13 @@
 """Define a client to interact with Pollen.com."""
+from urllib.parse import urlparse
+
 from aiohttp import ClientSession, client_exceptions
 
 from .allergens import Allergens
+from .asthma import Asthma
 from .disease import Disease
 from .errors import RequestError
 
-API_BASE = 'https://www.pollen.com'
-API_URL_SCAFFOLD = '{0}/api'.format(API_BASE)
 API_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) ' \
     + 'AppleWebKit/537.36 (KHTML, like Gecko) ' \
     + 'Chrome/65.0.3325.181 Safari/537.36'
@@ -20,29 +21,31 @@ class Client:  # pylint: disable=too-few-public-methods
         self._websession = websession
         self.zip_code = zip_code
 
-        self.allergens = Allergens(self.request)
-        self.disease = Disease(self.request)
+        self.allergens = Allergens(self._request)
+        self.asthma = Asthma(self._request)
+        self.disease = Disease(self._request)
 
-    async def request(
+    async def _request(
             self,
             method: str,
-            endpoint: str,
+            url: str,
             *,
             headers: dict = None,
             params: dict = None,
             json: dict = None) -> dict:
         """Make a request against AirVisual."""
-        url = '{0}/{1}/{2}'.format(API_URL_SCAFFOLD, endpoint, self.zip_code)
+        full_url = '{0}/{1}'.format(url, self.zip_code)
+        pieces = urlparse(url)
 
         if not headers:
             headers = {}
         headers.update({
             'Content-Type': 'application/json',
-            'Referer': API_BASE,
+            'Referer': '{0}://{1}'.format(pieces.scheme, pieces.netloc),
             'User-Agent': API_USER_AGENT
         })
 
-        async with self._websession.request(method, url, headers=headers,
+        async with self._websession.request(method, full_url, headers=headers,
                                             params=params, json=json) as resp:
             try:
                 resp.raise_for_status()
@@ -50,5 +53,4 @@ class Client:  # pylint: disable=too-few-public-methods
                 return data
             except client_exceptions.ClientError as err:
                 raise RequestError(
-                    'Error requesting data from {0}: {1}'.format(
-                        endpoint, err)) from None
+                    'Error requesting data from {0}: {1}'.format(url, err))
