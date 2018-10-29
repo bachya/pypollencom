@@ -40,6 +40,10 @@ async def run(websession):
         print(await client.disease.extended())
 
         print()
+        print('CURRENT ASTHMA INFO')
+        print(await client.asthma.current())
+
+        print()
         print('EXTENDED ASTHMA INFO')
         print(await client.asthma.extended())
 
