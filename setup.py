@@ -19,7 +19,7 @@ DESCRIPTION = 'A simple API for Pollen.com data'
 URL = 'https://github.com/bachya/pypollencom'
 EMAIL = 'bachya1208@gmail.com'
 AUTHOR = 'Aaron Bach'
-REQUIRES_PYTHON = '>=3.6.0'
+REQUIRES_PYTHON = '>=3.5.3'
 VERSION = None
 
 # What packages are required for this module to be executed?
