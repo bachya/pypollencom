@@ -12,19 +12,12 @@ def fixture_extended():
             "ZIP": "80238",
             "City": "DENVER",
             "State": "CO",
-            "periods": [{
-                "Period": "2018-06-12T05:13:51.817",
-                "Index": 2.4
-            }, {
-                "Period": "2018-06-13T05:13:51.817",
-                "Index": 2.5
-            }, {
-                "Period": "2018-06-14T05:13:51.817",
-                "Index": 2.5
-            }, {
-                "Period": "2018-06-15T05:13:51.817",
-                "Index": 2.5
-            }],
-            "DisplayLocation": "Denver, CO"
-        }
+            "periods": [
+                {"Period": "2018-06-12T05:13:51.817", "Index": 2.4},
+                {"Period": "2018-06-13T05:13:51.817", "Index": 2.5},
+                {"Period": "2018-06-14T05:13:51.817", "Index": 2.5},
+                {"Period": "2018-06-15T05:13:51.817", "Index": 2.5},
+            ],
+            "DisplayLocation": "Denver, CO",
+        },
     }

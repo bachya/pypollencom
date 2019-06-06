@@ -9,8 +9,8 @@ def raise_on_invalid_zip(func: Callable) -> Callable:
     async def decorator(*args: list, **kwargs: dict) -> dict:
         """Decorate."""
         data = await func(*args, **kwargs)
-        if not data['Location']['periods']:
-            raise InvalidZipError('No data returned for ZIP code')
+        if not data["Location"]["periods"]:
+            raise InvalidZipError("No data returned for ZIP code")
         return data
 
     return decorator

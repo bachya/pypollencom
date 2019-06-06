@@ -16,12 +16,14 @@ from .fixtures.disease import *  # noqa
 async def test_endpoints(aresponses, event_loop, fixture_extended):
     """Test all endpoints."""
     aresponses.add(
-        'www.pollen.com',
-        '/api/forecast/extended/cold/{0}'.format(TEST_ZIP), 'get',
-        aresponses.Response(text=json.dumps(fixture_extended), status=200))
+        "www.pollen.com",
+        "/api/forecast/extended/cold/{0}".format(TEST_ZIP),
+        "get",
+        aresponses.Response(text=json.dumps(fixture_extended), status=200),
+    )
 
     async with aiohttp.ClientSession(loop=event_loop) as websession:
         client = Client(TEST_ZIP, websession)
 
         extended = await client.disease.extended()
-        assert len(extended['Location']['periods']) == 4
+        assert len(extended["Location"]["periods"]) == 4

@@ -15,4 +15,5 @@ class Disease:  # pylint: disable=too-few-public-methods
     async def extended(self) -> dict:
         """Get extended disease info."""
         return await self._request(
-            'get', 'https://www.pollen.com/api/forecast/extended/cold')
+            "get", "https://www.pollen.com/api/forecast/extended/cold"
+        )
